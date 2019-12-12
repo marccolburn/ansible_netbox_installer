@@ -40,6 +40,10 @@
         state: started
         enabled: True
 
+    - name: Install psycopg2 python library
+      pip:
+        name: psycopg2
+
     - name: "Create a new database with name 'netbox'"
       postgresql_db:
         name: netbox
