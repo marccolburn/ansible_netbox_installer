@@ -4,7 +4,6 @@
   vars:
     postgres_url: "https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm"
     packages: 
-      - "{{ postgres_url }}"
       - "postgresql96"
       - "postgresql96-server"
       - "postgresql96-devel"
@@ -21,6 +20,11 @@
       - "redhat-rpm-config" 
       - "redis"
   tasks:
+    - name: Install postgres rpm first
+      yum:
+        name: "{{ postgres_url }}"
+        state: present
+
     - name: Install required packages
       yum:
         name: "{{ packages }}"
