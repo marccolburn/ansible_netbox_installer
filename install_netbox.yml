@@ -60,7 +60,7 @@
         state: enabled
       loop:
         - https
-        - postgres
+        - postgresql
 
     - name: "Create a new database with name 'netbox'"
       postgresql_db:
