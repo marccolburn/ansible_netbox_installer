@@ -1,0 +1,76 @@
+---
+- name: Install Netbox components
+  hosts: all
+  vars:
+    postgres_url: "https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm"
+    packages: 
+      - "{{ postgres_url }}"
+      - "postgresql96"
+      - "postgresql96-server"
+      - "postgresql96-devel"
+      - "epel-release"
+      - "gcc" 
+      - "python36" 
+      - "python36-devel" 
+      - "python36-setuptools" 
+      - "libxml2-devel" 
+      - "libxslt-devel" 
+      - "libffi-devel" 
+      - "graphviz" 
+      - "openssl-devel" 
+      - "redhat-rpm-config" 
+      - "redis"
+  tasks:
+    - name: Install required packages
+      yum:
+        name: "{{ packages }}"
+        state: present
+
+    - name: Initialize DB
+      command: "/usr/pgsql-9.6/bin/postgresql96-setup initdb"
+
+    - name: Start and enable Service
+      service:
+        name: "postgresql9.6"
+        state: started
+        enabled: True
+
+    - name: "Create a new database with name 'netbox'"
+      postgresql_db:
+        name: netbox
+        state: present
+
+    - name: Connect to netbox database, create netbox user, and grant access to database tables
+      postgresql_user:
+        db: netbox
+        name: netbox
+        password: "{{ netbox_password }}"
+        priv: "ALL"
+
+    - name: Install pip for python3
+      easy_install:
+        name: pip
+        state: latest
+        executable: "easy_install-3.6"
+
+    - name: Create a symbolic link
+      file:
+        src: /usr/bin/python3
+        dest: /usr/bin/python36
+        state: link
+
+    - name: Make netbox dir
+      file:
+        path: /opt/netbox
+        state: directory
+        mode: '0755'
+
+    - name: Clone netbox repo
+      git:
+        repo: 'https://github.com/netbox-community/netbox.git'
+        dest: /opt/netbox/netbox
+
+    - name: Install python requirements from requirements.txt
+      pip:
+        name: "/opt/netbox/netbox/requirements.txt"
+        executable: pip3.6
