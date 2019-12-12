@@ -53,6 +53,15 @@
         group: postgres
         password: "{{ postgres_pwd }}"
 
+    - name: Open firewall services
+      firewalld:
+        service: "{{ item }}"
+        permanent: yes
+        state: enabled
+      loop:
+        - https
+        - postgres
+
     - name: "Create a new database with name 'netbox'"
       postgresql_db:
         name: netbox
