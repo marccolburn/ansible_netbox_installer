@@ -19,14 +19,15 @@
       - "openssl-devel" 
       - "redhat-rpm-config" 
       - "redis"
+      - "python2-setuptools"
   tasks:
     - name: Install postgres rpm first
-      dnf:
+      yum:
         name: "{{ postgres_url }}"
         state: present
 
     - name: Install required packages
-      dnf:
+      yum:
         name: "{{ packages }}"
         state: present
 
