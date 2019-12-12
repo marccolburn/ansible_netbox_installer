@@ -58,6 +58,7 @@
         service: "{{ item }}"
         permanent: yes
         state: enabled
+        immediate: True
       loop:
         - https
         - postgresql
