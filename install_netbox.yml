@@ -45,7 +45,7 @@
 
     - name: Install psycopg2 python library
       pip:
-        name: psycopg2
+        name: psycopg2-binary
 
     - name: "Create a new database with name 'netbox'"
       postgresql_db:
