@@ -73,6 +73,7 @@
         name: netbox
         state: present
         login_host: "{{ postgres_host }}"
+        login_user: netbox
         login_unix_socket: "/var/run/postgresql"
       become: True
       become_user: "netbox"
