@@ -35,7 +35,7 @@
 
     - name: Start and enable Service
       service:
-        name: "postgresql9.6"
+        name: "postgresql-9.6"
         state: started
         enabled: True
 
