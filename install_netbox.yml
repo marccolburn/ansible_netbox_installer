@@ -47,6 +47,11 @@
       pip:
         name: psycopg2-binary
 
+    - name: Create postgres user
+      user:
+        name: postgres
+        group: postgres
+
     - name: "Create a new database with name 'netbox'"
       postgresql_db:
         name: netbox
