@@ -58,6 +58,7 @@
         name: netbox
         state: present
         login_password: "{{ netbox_password }}"
+        login_host: "{{ postgres_host }}"
 
     - name: Connect to netbox database, create netbox user, and grant access to database tables
       postgresql_user:
