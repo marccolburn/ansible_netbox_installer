@@ -51,6 +51,7 @@
       user:
         name: postgres
         group: postgres
+        password: "{{ postgres_pwd }}"
 
     - name: "Create a new database with name 'netbox'"
       postgresql_db:
